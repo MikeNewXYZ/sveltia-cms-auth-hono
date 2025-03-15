@@ -1,0 +1,19 @@
+{
+	"name": "@sveltia-cms-auth-hono/core",
+	"version": "0.0.1",
+	"author": "MikeNewXYZ",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"type": "module",
+	"scripts": {
+		"build": "tsup src/index.ts --format esm,cjs --dts",
+		"dev": "tsup src/index.ts --format esm,cjs --dts --watch"
+	},
+	"dependencies": {
+		"hono": "^4.7.4"
+	},
+	"devDependencies": {
+		"tsup": "^8.4.0",
+		"typescript": "^5.8.2"
+	}
+}
