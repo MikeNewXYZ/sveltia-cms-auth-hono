@@ -1,6 +1,9 @@
-import { SveltiaCMSAuthApp, handleVercel } from "@sveltia-cms-auth-hono/core";
+import { createAuthApp } from "@sveltia-cms-auth-hono/core";
+import { handleVercel } from "@sveltia-cms-auth-hono/core/platforms/vercel";
 
 export const runtime = "edge";
 
-export const GET = handleVercel(SveltiaCMSAuthApp);
-export const POST = handleVercel(SveltiaCMSAuthApp);
+const app = createAuthApp();
+
+export const GET = handleVercel(app);
+export const POST = handleVercel(app);

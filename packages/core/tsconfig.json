@@ -6,10 +6,12 @@
 		"esModuleInterop": true,
 		"strict": true,
 		"outDir": "dist",
-		"rootDir": "src",
+		"rootDir": ".",
+		"rootDirs": [".", "src"],
 		"baseUrl": ".",
 		"paths": {
 			"@/*": ["src/*"]
 		}
-	}
+	},
+	"include": ["src/**/*", "tsup.config.ts"]
 }

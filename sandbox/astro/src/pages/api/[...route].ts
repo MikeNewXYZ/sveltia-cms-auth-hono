@@ -1,4 +1,7 @@
 import type { APIRoute } from "astro";
-import { SveltiaCMSAuthApp } from "@sveltia-cms-auth-hono/core";
+import { createAuthApp } from "@sveltia-cms-auth-hono/core";
 
-export const ALL: APIRoute = (context) => SveltiaCMSAuthApp.fetch(context.request);
+const app = createAuthApp();
+
+export const ALL: APIRoute = (context) => app.fetch(context.request, import.meta.env);
+export type SveltiaCMSAuthApp = typeof app;
