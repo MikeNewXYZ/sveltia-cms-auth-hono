@@ -17,7 +17,10 @@ const AdminPage = () => {
 					name: "github",
 					branch: "main",
 					repo: "MikeNewXYZ/sveltia-cms-auth-hono",
-					base_url: "http://localhost:3000",
+					base_url:
+						process.env.NODE_ENV === "development"
+							? "http://localhost:3000"
+							: process.env.VERCEL_URL,
 					auth_endpoint: "api/auth",
 				},
 				media_folder: "sandbox/nextjs-edge/src/assets/",
