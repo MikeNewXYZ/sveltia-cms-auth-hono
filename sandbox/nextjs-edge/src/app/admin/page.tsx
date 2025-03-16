@@ -20,7 +20,7 @@ const AdminPage = () => {
 					base_url:
 						process.env.NODE_ENV === "development"
 							? "http://localhost:3000"
-							: process.env.NEXT_PUBLIC_VERCEL_URL,
+							: `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`,
 					auth_endpoint: "api/auth",
 				},
 				media_folder: "sandbox/nextjs-edge/src/assets/",
