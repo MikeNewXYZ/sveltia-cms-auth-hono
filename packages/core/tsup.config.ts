@@ -5,7 +5,7 @@ export default defineConfig({
 	tsconfig: "tsconfig.json",
 	format: ["esm"],
 	dts: true,
-	bundle: false,
+	bundle: true,
 	clean: true,
 	splitting: true,
 });
