@@ -2,7 +2,7 @@ backend:
   name: github
   branch: main
   repo: MikeNewXYZ/sveltia-cms-auth-hono
-  base_url: http://localhost:4321
+  base_url: http://localhost:3000
   auth_endpoint: api/auth
 
 media_folder: sandbox/astro-nodejs/src/assets/
