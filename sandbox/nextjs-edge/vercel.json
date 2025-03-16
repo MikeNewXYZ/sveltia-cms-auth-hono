@@ -1,6 +1,6 @@
 {
 	"framework": "nextjs",
-	"buildCommand": "cd ../.. && pnpm build --filter=nextjs-edge...",
+	"buildCommand": "cd ../.. && pnpm --filter=nextjs-edge... build",
 	"installCommand": "cd ../.. && pnpm install",
 	"outputDirectory": ".next"
 }
