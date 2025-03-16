@@ -1,7 +1,10 @@
 import type { CreateAuthAppProps, AppContext } from "@/types";
 import { Hono } from "hono/tiny";
+
 import { authEnvValidation } from "@/middleware/auth-env-validation";
 import { githubAuth } from "@/middleware/github-auth";
+
+import { authQueryValidator } from "@/validators/auth-validator";
 
 const createAuthApp = ({ authEnv, basePath = "/api" }: CreateAuthAppProps = {}) => {
 	const app = new Hono<AppContext>().basePath(basePath);
@@ -12,7 +15,7 @@ const createAuthApp = ({ authEnv, basePath = "/api" }: CreateAuthAppProps = {}) 
 	// Middleware to create a new GitHub Auth instance.
 	app.use(githubAuth);
 
-	app.get("/auth", (c) => {
+	app.get("/auth", authQueryValidator, (c) => {
 		return c.json({
 			message: "Auth",
 		});

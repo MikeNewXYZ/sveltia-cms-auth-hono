@@ -21,8 +21,10 @@
 	},
 	"dependencies": {
 		"@hono/node-server": "^1.13.8",
+		"@hono/zod-validator": "^0.4.3",
 		"arctic": "^3.5.0",
-		"hono": "^4.7.4"
+		"hono": "^4.7.4",
+		"zod": "^3.24.2"
 	},
 	"devDependencies": {
 		"tsup": "^8.4.0",

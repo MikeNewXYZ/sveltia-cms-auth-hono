@@ -3,6 +3,7 @@ import * as arctic from "arctic";
 export type AppEnv = {
 	GITHUB_CLIENT_ID: string;
 	GITHUB_CLIENT_SECRET: string;
+	ALLOWED_DOMAINS?: string;
 };
 
 export type Variables = {
