@@ -5,15 +5,15 @@
 	"private": true,
 	"scripts": {
 		"format": "prettier --write .",
-		"dev:core": "pnpm --filter sveltia-cms-auth-hono dev",
-		"build:core": "pnpm --filter sveltia-cms-auth-hono build",
-		"publish:core": "pnpm build:core && pnpm --filter sveltia-cms-auth-hono publish --no-git-checks",
-		"version:core:patch": "pnpm --filter sveltia-cms-auth-hono version patch",
-		"version:core:minor": "pnpm --filter sveltia-cms-auth-hono version minor",
-		"version:core:major": "pnpm --filter sveltia-cms-auth-hono version major",
-		"release:core:patch": "pnpm version:core:patch && pnpm publish:core",
-		"release:core:minor": "pnpm version:core:minor && pnpm publish:core",
-		"release:core:major": "pnpm version:core:major && pnpm publish:core"
+		"dev:package": "pnpm --filter sveltia-cms-auth-hono dev",
+		"build:package": "pnpm --filter sveltia-cms-auth-hono build",
+		"publish:package": "pnpm build:package && pnpm --filter sveltia-cms-auth-hono publish --no-git-checks",
+		"version:package:patch": "pnpm --filter sveltia-cms-auth-hono version patch",
+		"version:package:minor": "pnpm --filter sveltia-cms-auth-hono version minor",
+		"version:package:major": "pnpm --filter sveltia-cms-auth-hono version major",
+		"release:package:patch": "pnpm version:package:patch && pnpm publish:package",
+		"release:package:minor": "pnpm version:package:minor && pnpm publish:package",
+		"release:package:major": "pnpm version:package:major && pnpm publish:package"
 	},
 	"devDependencies": {
 		"prettier": "^3.5.2",
