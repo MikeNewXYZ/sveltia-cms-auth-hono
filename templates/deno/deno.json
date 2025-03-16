@@ -1,0 +1,12 @@
+{
+	"tasks": {
+		"start": "deno run --allow-net --env-file --allow-env main.ts"
+	},
+	"compilerOptions": {
+		"jsx": "precompile",
+		"jsxImportSource": "hono/jsx"
+	},
+	"imports": {
+		"sveltia-cms-auth-hono": "npm:sveltia-cms-auth-hono@^0.0.1"
+	}
+}
