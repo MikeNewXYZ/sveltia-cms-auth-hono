@@ -1,25 +1,10 @@
+import type { CreateAuthAppProps, AppContext } from "@/types";
 import { Hono } from "hono/tiny";
-import * as arctic from "arctic";
 import { authEnvValidation } from "@/middleware/auth-env-validation";
 import { githubAuth } from "@/middleware/github-auth";
 
-type AppEnv = {
-	GITHUB_CLIENT_ID: string;
-	GITHUB_CLIENT_SECRET: string;
-};
-
-type Variables = {
-	appEnv: AppEnv;
-	github: arctic.GitHub;
-};
-
-type CreateAuthAppProps = {
-	authEnv?: AppEnv;
-	basePath?: string;
-};
-
 const createAuthApp = ({ authEnv, basePath = "/api" }: CreateAuthAppProps = {}) => {
-	const app = new Hono<{ Bindings: AppEnv; Variables: Variables }>().basePath(basePath);
+	const app = new Hono<AppContext>().basePath(basePath);
 
 	// Middleware to check if the Environment Variables are set.
 	app.use(authEnvValidation(authEnv));
@@ -45,4 +30,3 @@ const createAuthApp = ({ authEnv, basePath = "/api" }: CreateAuthAppProps = {}) 
 };
 
 export { createAuthApp };
-export type { AppEnv, Variables, CreateAuthAppProps };

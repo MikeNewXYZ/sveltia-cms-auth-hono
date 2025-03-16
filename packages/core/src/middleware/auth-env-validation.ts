@@ -1,4 +1,4 @@
-import type { AppEnv, CreateAuthAppProps } from "@/index";
+import type { AppEnv, CreateAuthAppProps } from "@/types";
 import { createMiddleware } from "hono/factory";
 import { env } from "hono/adapter";
 
