@@ -7,6 +7,7 @@ import { authEnvValidation } from "@/middleware/auth-env-validation";
 import { githubAuth } from "@/middleware/github-auth";
 
 import { authQueryValidator } from "@/validators/auth-validator";
+import { callbackQueryValidator, callbackCookieValidator } from "@/validators/callback-validator";
 
 const createAuthApp = ({ authEnv, basePath = "/api" }: CreateAuthAppProps = {}) => {
 	const app = new Hono<AppContext>().basePath(basePath);
@@ -40,7 +41,7 @@ const createAuthApp = ({ authEnv, basePath = "/api" }: CreateAuthAppProps = {}) 
 		return c.redirect(authURL.href);
 	});
 
-	app.get("/callback", (c) => {
+	app.get("/callback", callbackQueryValidator, callbackCookieValidator, (c) => {
 		return c.json({
 			message: "Callback",
 		});
