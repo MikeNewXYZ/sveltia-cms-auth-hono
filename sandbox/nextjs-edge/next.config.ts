@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+	transpilePackages: ["@sveltia-cms-auth-hono/core"],
 };
 
 export default nextConfig;
