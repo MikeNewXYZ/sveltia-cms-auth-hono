@@ -13,7 +13,9 @@
 		"version:package:major": "pnpm --filter sveltia-cms-auth-hono version major",
 		"release:package:patch": "pnpm version:package:patch && pnpm publish:package",
 		"release:package:minor": "pnpm version:package:minor && pnpm publish:package",
-		"release:package:major": "pnpm version:package:major && pnpm publish:package"
+		"release:package:major": "pnpm version:package:major && pnpm publish:package",
+		"dev:sandbox:nextjs-edge": "pnpm --filter=nextjs-edge... dev",
+		"build:sandbox:nextjs-edge": "pnpm --filter=nextjs-edge... build"
 	},
 	"devDependencies": {
 		"prettier": "^3.5.2",
