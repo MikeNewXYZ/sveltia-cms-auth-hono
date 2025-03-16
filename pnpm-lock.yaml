@@ -15,7 +15,7 @@ importers:
         specifier: ^0.14.1
         version: 0.14.1
 
-  packages/core:
+  package:
     dependencies:
       '@hono/node-server':
         specifier: ^1.13.8
@@ -45,18 +45,15 @@ importers:
       '@astrojs/node':
         specifier: ^9.1.3
         version: 9.1.3(astro@5.5.2(@types/node@20.17.24)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.35.0)(typescript@5.8.2))
-      '@sveltia-cms-auth-hono/core':
-        specifier: workspace:*
-        version: link:../../packages/core
       astro:
         specifier: ^5.5.2
         version: 5.5.2(@types/node@20.17.24)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.35.0)(typescript@5.8.2)
+      sveltia-cms-auth-hono:
+        specifier: workspace:*
+        version: link:../../package
 
   sandbox/nextjs-edge:
     dependencies:
-      '@sveltia-cms-auth-hono/core':
-        specifier: workspace:*
-        version: link:../../packages/core
       next:
         specifier: 15.2.2
         version: 15.2.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -66,6 +63,9 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.0.0(react@19.0.0)
+      sveltia-cms-auth-hono:
+        specifier: workspace:*
+        version: link:../../package
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3

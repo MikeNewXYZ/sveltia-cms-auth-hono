@@ -4,12 +4,20 @@
 	"author": "MikeNewXYZ",
 	"private": true,
 	"scripts": {
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"dev:core": "pnpm --filter sveltia-cms-auth-hono dev",
+		"build:core": "pnpm --filter sveltia-cms-auth-hono build",
+		"publish:core": "pnpm build:core && pnpm --filter sveltia-cms-auth-hono publish --no-git-checks",
+		"version:core:patch": "pnpm --filter sveltia-cms-auth-hono version patch",
+		"version:core:minor": "pnpm --filter sveltia-cms-auth-hono version minor",
+		"version:core:major": "pnpm --filter sveltia-cms-auth-hono version major",
+		"release:core:patch": "pnpm version:core:patch && pnpm publish:core",
+		"release:core:minor": "pnpm version:core:minor && pnpm publish:core",
+		"release:core:major": "pnpm version:core:major && pnpm publish:core"
 	},
 	"devDependencies": {
 		"prettier": "^3.5.2",
 		"prettier-plugin-astro": "^0.14.1"
 	},
 	"packageManager": "pnpm@9.10.0"
-
 }

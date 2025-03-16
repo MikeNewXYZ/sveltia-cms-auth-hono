@@ -1,7 +1,26 @@
 {
-	"name": "@sveltia-cms-auth-hono/core",
+	"name": "sveltia-cms-auth-hono",
 	"version": "0.0.1",
 	"author": "MikeNewXYZ",
+	"description": "Authentication library for Sveltia CMS using Hono.",
+	"keywords": [
+		"auth",
+		"hono",
+		"sveltia",
+		"cms"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/yourusername/sveltia-cms-auth-hono"
+	},
+	"license": "MIT",
+	"publishConfig": {
+		"access": "public"
+	},
+	"files": [
+		"dist",
+		"README.md"
+	],
 	"type": "module",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -16,8 +35,8 @@
 		}
 	},
 	"scripts": {
-		"build": "tsup",
-		"dev": "tsup --watch"
+		"dev": "tsup --watch",
+		"build": "tsup"
 	},
 	"dependencies": {
 		"@hono/node-server": "^1.13.8",

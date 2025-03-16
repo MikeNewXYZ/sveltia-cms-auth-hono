@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { createAuthApp } from "@sveltia-cms-auth-hono/core";
+import { createAuthApp } from "sveltia-cms-auth-hono";
 
 const app = createAuthApp();
 

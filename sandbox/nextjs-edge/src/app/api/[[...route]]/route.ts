@@ -1,5 +1,5 @@
-import { createAuthApp } from "@sveltia-cms-auth-hono/core";
-import { handleVercel } from "@sveltia-cms-auth-hono/core/platforms/vercel";
+import { createAuthApp } from "sveltia-cms-auth-hono";
+import { handleVercel } from "sveltia-cms-auth-hono/platforms/vercel";
 
 export const runtime = "edge";
 
