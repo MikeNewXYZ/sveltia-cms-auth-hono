@@ -9,6 +9,8 @@ import { githubAuth } from "@/middleware/github-auth";
 import { authQueryValidator } from "@/validators/auth-validator";
 import { callbackQueryValidator, callbackCookieValidator } from "@/validators/callback-validator";
 
+import { generateOAuthCallbackHTML } from "@/lib/generate-oauth-callback-html";
+
 const createAuthApp = ({ authEnv, basePath = "/api" }: CreateAuthAppProps = {}) => {
 	const app = new Hono<AppContext>().basePath(basePath);
 
@@ -41,10 +43,14 @@ const createAuthApp = ({ authEnv, basePath = "/api" }: CreateAuthAppProps = {}) 
 		return c.redirect(authURL.href);
 	});
 
-	app.get("/callback", callbackQueryValidator, callbackCookieValidator, (c) => {
-		return c.json({
-			message: "Callback",
-		});
+	app.get("/callback", callbackQueryValidator, callbackCookieValidator, async (c) => {
+		const github = c.get("github");
+		const { code } = c.req.valid("query");
+		const { provider } = c.req.valid("cookie");
+		const tokens = await github.validateAuthorizationCode(code);
+		const accessToken = tokens.accessToken();
+
+		return generateOAuthCallbackHTML({ c, provider, token: accessToken });
 	});
 
 	app.get("*", (c) => c.redirect(basePath + "/auth"));
