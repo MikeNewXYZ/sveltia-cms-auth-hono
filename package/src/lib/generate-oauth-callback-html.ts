@@ -1,12 +1,13 @@
 import type { Context } from "hono";
 import { deleteCookie } from "hono/cookie";
 
-type GenerateOAuthCallbackHTMLProps = {
+export type GenerateOAuthCallbackHTMLProps = {
 	c: Context;
 	provider?: string;
 	token: string;
 };
 
+// Creates HTML page with JS that communicates with opener window to pass auth data
 export const generateOAuthCallbackHTML = ({
 	c,
 	provider = "unknown",

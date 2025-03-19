@@ -1,4 +1,3 @@
-import type { CreateAuthAppProps } from "@/types";
 import type { CookieOptions } from "hono/utils/cookie";
 import { Hono } from "hono/tiny";
 import { setCookie } from "hono/cookie";
@@ -18,13 +17,22 @@ const DEFAULT_COOKIE_OPTIONS: CookieOptions = {
 	sameSite: "Lax",
 };
 
-/**
- * Creates a Hono app with authentication routes for OAuth providers
- *
- * @param {CreateAuthAppProps} props - Configuration for the auth app
- * @returns {Hono} Configured Hono application with auth routes
- */
-const createAuthApp = ({ authCredentials, options = { basePath: "/api" } }: CreateAuthAppProps) => {
+export type CreateAuthAppProps = {
+	authCredentials: {
+		githubClientId: string;
+		githubClientSecret: string;
+	};
+	options?: {
+		allowedDomains?: string;
+		basePath: string | "/api";
+	};
+};
+
+// Creates a Hono app with authentication routes for OAuth providers
+export const createAuthApp = ({
+	authCredentials,
+	options = { basePath: "/api" },
+}: CreateAuthAppProps): Hono => {
 	const { githubClientId, githubClientSecret } = authCredentials;
 	const { allowedDomains, basePath } = options;
 
@@ -56,5 +64,3 @@ const createAuthApp = ({ authCredentials, options = { basePath: "/api" } }: Crea
 
 	return app;
 };
-
-export { createAuthApp };

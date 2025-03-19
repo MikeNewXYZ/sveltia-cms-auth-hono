@@ -7,6 +7,16 @@ const callbackQuerySchema = z.object({
 	state: z.string({ message: "Missing state query." }),
 });
 
+const callbackCookieSchema = z.object({
+	auth_state: z.string({
+		message: "Missing cookie state cookie.",
+	}),
+	provider: z.string({
+		message: "Missing provider information cookie.",
+	}),
+});
+
+// Validates callback query parameters and verifies state parameter to prevent CSRF attacks
 export const callbackQueryValidator = zValidator("query", callbackQuerySchema, (result, c) => {
 	const authState = getCookie(c, "auth_state");
 
@@ -20,15 +30,7 @@ export const callbackQueryValidator = zValidator("query", callbackQuerySchema, (
 	if (!result.success) return c.text(result.error.issues[0].message, { status: 422 });
 });
 
-const callbackCookieSchema = z.object({
-	auth_state: z.string({
-		message: "Missing cookie state cookie.",
-	}),
-	provider: z.string({
-		message: "Missing provider information cookie.",
-	}),
-});
-
+// Validates presence of required cookies set during auth initialization
 export const callbackCookieValidator = zValidator("cookie", callbackCookieSchema, (result, c) => {
 	if (!result.success) {
 		return c.text(result.error.issues[0].message, { status: 422 });
