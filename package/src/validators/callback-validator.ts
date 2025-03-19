@@ -8,9 +8,9 @@ const callbackQuerySchema = z.object({
 });
 
 export const callbackQueryValidator = zValidator("query", callbackQuerySchema, (result, c) => {
-	const cookieState = getCookie(c, "cookie_state");
+	const authState = getCookie(c, "auth_state");
 
-	if (result.data.state !== cookieState) {
+	if (result.data.state !== authState) {
 		return c.text(
 			"A security issue was detected (CSRF attack). Please restart the authentication process and try again.",
 			{ status: 403 },
@@ -21,7 +21,7 @@ export const callbackQueryValidator = zValidator("query", callbackQuerySchema, (
 });
 
 const callbackCookieSchema = z.object({
-	cookie_state: z.string({
+	auth_state: z.string({
 		message: "Missing cookie state cookie.",
 	}),
 	provider: z.string({

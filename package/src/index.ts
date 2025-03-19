@@ -38,7 +38,7 @@ const createAuthApp = ({ authCredentials, options = { basePath: "/api" } }: Crea
 		const authURL = github.createAuthorizationURL(state, scope.split(","));
 
 		// Store authentication state in a cookie
-		setCookie(c, "cookie_state", state, DEFAULT_COOKIE_OPTIONS);
+		setCookie(c, "auth_state", state, DEFAULT_COOKIE_OPTIONS);
 		setCookie(c, "provider", provider, DEFAULT_COOKIE_OPTIONS);
 
 		return c.redirect(authURL.href);

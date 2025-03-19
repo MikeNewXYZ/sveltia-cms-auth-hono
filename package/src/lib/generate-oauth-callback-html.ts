@@ -14,7 +14,7 @@ export const generateOAuthCallbackHTML = ({
 }: GenerateOAuthCallbackHTMLProps) => {
 	const jsonContent = JSON.stringify({ provider, token });
 
-	deleteCookie(c, "cookie_state");
+	deleteCookie(c, "auth_state");
 	deleteCookie(c, "provider");
 
 	return c.html(/*html*/ `
