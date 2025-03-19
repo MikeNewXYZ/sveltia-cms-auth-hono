@@ -1,29 +1,24 @@
-import type { CreateAuthAppProps, AppContext } from "@/types";
+import type { CreateAuthAppProps } from "@/types";
 import { Hono } from "hono/tiny";
 import { setCookie } from "hono/cookie";
-import * as arctic from "arctic";
-
-import { authEnvValidation } from "@/middleware/auth-env-validation";
-import { githubAuth } from "@/middleware/github-auth";
+import { GitHub, generateState } from "arctic";
 
 import { authQueryValidator } from "@/validators/auth-validator";
 import { callbackQueryValidator, callbackCookieValidator } from "@/validators/callback-validator";
 
 import { generateOAuthCallbackHTML } from "@/lib/generate-oauth-callback-html";
 
-const createAuthApp = ({ authEnv, basePath = "/api" }: CreateAuthAppProps = {}) => {
-	const app = new Hono<AppContext>().basePath(basePath);
+const createAuthApp = ({ authCredentials, options = { basePath: "/api" } }: CreateAuthAppProps) => {
+	const { githubClientId, githubClientSecret } = authCredentials;
+	const { allowedDomains, basePath } = options;
 
-	// Middleware to check if the Environment Variables are set.
-	app.use(authEnvValidation(authEnv));
+	const app = new Hono().basePath(basePath);
 
-	// Middleware to create a new GitHub Auth instance.
-	app.use(githubAuth);
+	const github = new GitHub(githubClientId, githubClientSecret, null);
 
-	app.get("/auth", authQueryValidator, (c) => {
+	app.get("/auth", authQueryValidator(allowedDomains), (c) => {
 		const { provider, scope } = c.req.valid("query");
-		const github = c.get("github");
-		const state = arctic.generateState();
+		const state = generateState();
 		const authURL = github.createAuthorizationURL(state, scope.split(","));
 
 		setCookie(c, "cookie_state", state, {
@@ -44,7 +39,6 @@ const createAuthApp = ({ authEnv, basePath = "/api" }: CreateAuthAppProps = {}) 
 	});
 
 	app.get("/callback", callbackQueryValidator, callbackCookieValidator, async (c) => {
-		const github = c.get("github");
 		const { code } = c.req.valid("query");
 		const { provider } = c.req.valid("cookie");
 		const tokens = await github.validateAuthorizationCode(code);
@@ -52,8 +46,6 @@ const createAuthApp = ({ authEnv, basePath = "/api" }: CreateAuthAppProps = {}) 
 
 		return generateOAuthCallbackHTML({ c, provider, token: accessToken });
 	});
-
-	app.get("*", (c) => c.redirect(basePath + "/auth"));
 
 	return app;
 };

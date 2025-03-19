@@ -1,5 +1,3 @@
-import type { Context } from "hono";
-import type { AppContext } from "@/types";
 import { z } from "zod";
 import { zValidator } from "@hono/zod-validator";
 
@@ -20,17 +18,15 @@ const authQuerySchema = z.object({
 	scope: z.string(),
 });
 
-export const authQueryValidator = zValidator(
-	"query",
-	authQuerySchema,
-	(result, c: Context<AppContext>) => {
-		const { ALLOWED_DOMAINS } = c.get("appEnv");
-
+export const authQueryValidator = (allowedDomains?: string) => {
+	return zValidator("query", authQuerySchema, (result, c) => {
+		// Check if the query is valid
 		if (!result.success) return c.text(result.error.issues[0].message, { status: 422 });
 
 		// Check if the domain is allowed
-		if (ALLOWED_DOMAINS && !isDomainAllowed(result.data.site_id, ALLOWED_DOMAINS)) {
+		const siteID = result.data.site_id;
+		if (allowedDomains && !isDomainAllowed(siteID, allowedDomains)) {
 			return c.text("Your domain is not authorized to use this authenticator.", { status: 403 });
 		}
-	},
-);
+	});
+};

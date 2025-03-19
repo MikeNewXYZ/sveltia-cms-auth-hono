@@ -1,5 +1,3 @@
-import type { AppContext } from "@/types";
-import type { Context } from "hono";
 import { getCookie } from "hono/cookie";
 import { z } from "zod";
 import { zValidator } from "@hono/zod-validator";
@@ -9,22 +7,18 @@ const callbackQuerySchema = z.object({
 	state: z.string({ message: "Missing state query." }),
 });
 
-export const callbackQueryValidator = zValidator(
-	"query",
-	callbackQuerySchema,
-	(result, c: Context<AppContext>) => {
-		const cookieState = getCookie(c, "cookie_state");
+export const callbackQueryValidator = zValidator("query", callbackQuerySchema, (result, c) => {
+	const cookieState = getCookie(c, "cookie_state");
 
-		if (result.data.state !== cookieState) {
-			return c.text(
-				"A security issue was detected (CSRF attack). Please restart the authentication process and try again.",
-				{ status: 403 },
-			);
-		}
+	if (result.data.state !== cookieState) {
+		return c.text(
+			"A security issue was detected (CSRF attack). Please restart the authentication process and try again.",
+			{ status: 403 },
+		);
+	}
 
-		if (!result.success) return c.text(result.error.issues[0].message, { status: 422 });
-	},
-);
+	if (!result.success) return c.text(result.error.issues[0].message, { status: 422 });
+});
 
 const callbackCookieSchema = z.object({
 	cookie_state: z.string({
@@ -35,12 +29,8 @@ const callbackCookieSchema = z.object({
 	}),
 });
 
-export const callbackCookieValidator = zValidator(
-	"cookie",
-	callbackCookieSchema,
-	(result, c: Context<AppContext>) => {
-		if (!result.success) {
-			return c.text(result.error.issues[0].message, { status: 422 });
-		}
-	},
-);
+export const callbackCookieValidator = zValidator("cookie", callbackCookieSchema, (result, c) => {
+	if (!result.success) {
+		return c.text(result.error.issues[0].message, { status: 422 });
+	}
+});
