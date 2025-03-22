@@ -13,10 +13,6 @@ export default defineConfig({
 		},
 		rollupOptions: {
 			external: ["hono"],
-			output: {
-				preserveModules: true,
-				exports: "named",
-			},
 		},
 		minify: true,
 		sourcemap: true,
