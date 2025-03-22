@@ -1,5 +1,6 @@
 import type { CookieOptions } from "hono/utils/cookie";
-import { Hono } from "hono/tiny";
+
+import { Hono } from "hono";
 import { setCookie } from "hono/cookie";
 import { GitHub, generateState } from "arctic";
 
@@ -8,59 +9,52 @@ import { callbackQueryValidator, callbackCookieValidator } from "@/validators/ca
 
 import { generateOAuthCallbackHTML } from "@/lib/generate-oauth-callback-html";
 
-// Default cookie options for authentication state
 const DEFAULT_COOKIE_OPTIONS: CookieOptions = {
-	path: "/",
-	httpOnly: true,
-	secure: true,
-	maxAge: 10 * 60, // 10 minutes
-	sameSite: "Lax",
+  path: "/",
+  httpOnly: true,
+  secure: true,
+  maxAge: 10 * 60, // 10 minutes
+  sameSite: "Lax",
 };
 
 export type CreateAuthAppProps = {
-	authCredentials: {
-		githubClientId: string;
-		githubClientSecret: string;
-	};
-	options?: {
-		allowedDomains?: string;
-		basePath: string | "/api";
-	};
+  provider: {
+    github: {
+      clientId: string;
+      clientSecret: string;
+    };
+  };
+  options?: {
+    allowedDomains?: string;
+  };
 };
 
-// Creates a Hono app with authentication routes for OAuth providers
-export const createAuthApp = ({
-	authCredentials,
-	options = { basePath: "/api" },
-}: CreateAuthAppProps): Hono => {
-	const { githubClientId, githubClientSecret } = authCredentials;
-	const { allowedDomains, basePath } = options;
+export const createAuthApp = ({ provider, options }: CreateAuthAppProps): Hono => {
+  const { github: githubCredentials } = provider;
+  const { allowedDomains } = options ?? {};
 
-	const app = new Hono().basePath(basePath);
-	const github = new GitHub(githubClientId, githubClientSecret, null);
+  const app = new Hono();
+  const github = new GitHub(githubCredentials.clientId, githubCredentials.clientSecret, null);
 
-	// Authentication initiation endpoint
-	app.get("/auth", authQueryValidator(allowedDomains), (c) => {
-		const { provider, scope } = c.req.valid("query");
-		const state = generateState();
-		const authURL = github.createAuthorizationURL(state, scope.split(","));
+  app.get("/auth", authQueryValidator(allowedDomains), (c) => {
+    const { provider, scope } = c.req.valid("query");
+    const state = generateState();
+    const authURL = github.createAuthorizationURL(state, scope.split(","));
 
-		// Store authentication state in a cookie
-		setCookie(c, "auth_state", state, DEFAULT_COOKIE_OPTIONS);
-		setCookie(c, "provider", provider, DEFAULT_COOKIE_OPTIONS);
+    setCookie(c, "auth_state", state, DEFAULT_COOKIE_OPTIONS);
+    setCookie(c, "provider", provider, DEFAULT_COOKIE_OPTIONS);
 
-		return c.redirect(authURL.href);
-	});
+    return c.redirect(authURL.href);
+  });
 
-	// OAuth callback endpoint
-	app.get("/callback", callbackQueryValidator, callbackCookieValidator, async (c) => {
-		const { code } = c.req.valid("query");
-		const { provider } = c.req.valid("cookie");
-		const tokens = await github.validateAuthorizationCode(code);
-		const accessToken = tokens.accessToken();
+  app.get("/callback", callbackQueryValidator, callbackCookieValidator, async (c) => {
+    const { code } = c.req.valid("query");
+    const { provider } = c.req.valid("cookie");
+    const tokens = await github.validateAuthorizationCode(code);
+    const accessToken = tokens.accessToken();
 
-		return generateOAuthCallbackHTML({ c, provider, token: accessToken });
-	});
+    return generateOAuthCallbackHTML({ c, provider, token: accessToken });
+  });
 
-	return app;
+  return app;
 };

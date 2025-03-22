@@ -1,23 +1,22 @@
 {
 	"name": "sveltia-cms-auth-hono",
-	"version": "0.0.1",
-	"author": "MikeNewXYZ",
 	"private": true,
 	"scripts": {
 		"format": "prettier --write .",
 		"dev:package": "pnpm --filter sveltia-cms-auth-hono dev",
 		"build:package": "pnpm --filter sveltia-cms-auth-hono build",
-		"publish:package": "pnpm build:package && pnpm --filter sveltia-cms-auth-hono publish --no-git-checks",
-		"version:package:patch": "cd package && pnpm version patch",
-		"version:package:minor": "cd package && pnpm version minor",
-		"version:package:major": "cd package && pnpm version major",
-		"release:package:patch": "pnpm version:package:patch && pnpm publish:package",
-		"release:package:minor": "pnpm version:package:minor && pnpm publish:package",
-		"release:package:major": "pnpm version:package:major && pnpm publish:package",
-		"dev:sandbox:nextjs-edge": "pnpm --filter=nextjs-edge... dev",
-		"build:sandbox:nextjs-edge": "pnpm --filter=nextjs-edge... build"
+		"publish:package": "concurrently \"pnpm build:package\" \"pnpm --filter sveltia-cms-auth-hono publish --no-git-checks\" --kill-others-on-fail --sequential",
+		"version:package:patch": "concurrently \"cd package\" \"pnpm version patch\" --kill-others-on-fail --sequential",
+		"version:package:minor": "concurrently \"cd package\" \"pnpm version minor\" --kill-others-on-fail --sequential",
+		"version:package:major": "concurrently \"cd package\" \"pnpm version major\" --kill-others-on-fail --sequential",
+		"release:package:patch": "concurrently \"pnpm version:package:patch\" \"pnpm publish:package\" --kill-others-on-fail --sequential",
+		"release:package:minor": "concurrently \"pnpm version:package:minor\" \"pnpm publish:package\" --kill-others-on-fail --sequential",
+		"release:package:major": "concurrently \"pnpm version:package:major\" \"pnpm publish:package\" --kill-others-on-fail --sequential",
+		"dev:sandbox:astro-cloudflare": "concurrently \"pnpm dev:package\" \"pnpm --filter=astro-cloudflare dev\" --kill-others-on-fail --sequential",
+		"build:sandbox:astro-cloudflare": "concurrently \"pnpm build:package\" \"pnpm --filter=astro-cloudflare build\" --kill-others-on-fail --sequential"
 	},
 	"devDependencies": {
+		"concurrently": "^9.1.2",
 		"prettier": "^3.5.2",
 		"prettier-plugin-astro": "^0.14.1"
 	},

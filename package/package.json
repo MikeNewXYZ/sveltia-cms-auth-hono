@@ -1,6 +1,6 @@
 {
 	"name": "sveltia-cms-auth-hono",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"author": "MikeNewXYZ",
 	"description": "Authentication library for Sveltia CMS using Hono.",
 	"keywords": [
@@ -9,11 +9,11 @@
 		"sveltia",
 		"cms"
 	],
+	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/mikenewxyz/sveltia-cms-auth-hono"
 	},
-	"license": "MIT",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -22,31 +22,33 @@
 		"README.md"
 	],
 	"type": "module",
-	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
+	"main": "./dist/cjs/index.cjs",
+	"module": "./dist/es/index.mjs",
+	"types": "./dist/types/index.d.ts",
 	"exports": {
 		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js"
-		},
-		"./platforms/*": {
-			"types": "./dist/platforms/*.d.ts",
-			"import": "./dist/platforms/*.js"
+			"types": "./dist/types/index.d.ts",
+			"import": "./dist/es/index.mjs",
+			"require": "./dist/cjs/index.cjs"
 		}
 	},
 	"scripts": {
-		"dev": "tsup --watch",
-		"build": "tsup"
+		"build": "vite build",
+		"dev": "vite build --watch"
 	},
 	"dependencies": {
-		"@hono/node-server": "^1.13.8",
 		"@hono/zod-validator": "^0.4.3",
 		"arctic": "^3.5.0",
-		"hono": "^4.7.4",
 		"zod": "^3.24.2"
 	},
 	"devDependencies": {
-		"tsup": "^8.4.0",
-		"typescript": "^5.8.2"
-	}
+		"typescript": "^5.8.2",
+		"vite": "^6.2.2",
+		"vite-plugin-dts": "^4.5.3",
+		"vite-tsconfig-paths": "^5.1.4"
+	},
+	"peerDependencies": {
+		"hono": "^4.7.4"
+	},
+	"packageManager": "pnpm@9.10.0+sha512.73a29afa36a0d092ece5271de5177ecbf8318d454ecd701343131b8ebc0c1a91c487da46ab77c8e596d6acf1461e3594ced4becedf8921b074fbd8653ed7051c"
 }
