@@ -1,6 +1,6 @@
 {
 	"name": "sveltia-cms-auth-hono",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"author": "MikeNewXYZ",
 	"description": "Authentication library for Sveltia CMS using Hono.",
 	"keywords": [
@@ -34,7 +34,8 @@
 	},
 	"scripts": {
 		"build": "vite build",
-		"dev": "vite build --watch"
+		"dev": "vite build --watch",
+		"version": "npm version"
 	},
 	"dependencies": {
 		"@hono/zod-validator": "^0.4.3",

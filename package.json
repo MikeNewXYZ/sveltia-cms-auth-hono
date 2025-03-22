@@ -6,9 +6,9 @@
 		"dev:package": "pnpm --filter sveltia-cms-auth-hono dev",
 		"build:package": "pnpm --filter sveltia-cms-auth-hono build",
 		"publish:package": "concurrently \"pnpm build:package\" \"pnpm --filter sveltia-cms-auth-hono publish --no-git-checks\" --kill-others-on-fail --sequential",
-		"version:package:patch": "concurrently \"cd package\" \"pnpm version patch\" --kill-others-on-fail --sequential",
-		"version:package:minor": "concurrently \"cd package\" \"pnpm version minor\" --kill-others-on-fail --sequential",
-		"version:package:major": "concurrently \"cd package\" \"pnpm version major\" --kill-others-on-fail --sequential",
+		"version:package:patch": "pnpm --filter sveltia-cms-auth-hono version patch",
+		"version:package:minor": "pnpm --filter sveltia-cms-auth-hono version minor",
+		"version:package:major": "pnpm --filter sveltia-cms-auth-hono version major",
 		"release:package:patch": "concurrently \"pnpm version:package:patch\" \"pnpm publish:package\" --kill-others-on-fail --sequential",
 		"release:package:minor": "concurrently \"pnpm version:package:minor\" \"pnpm publish:package\" --kill-others-on-fail --sequential",
 		"release:package:major": "concurrently \"pnpm version:package:major\" \"pnpm publish:package\" --kill-others-on-fail --sequential",
@@ -20,6 +20,5 @@
 		"prettier": "^3.5.2",
 		"prettier-plugin-astro": "^0.14.1"
 	},
-	"packageManager": "pnpm@9.10.0",
-	"version": "0.0.2"
+	"packageManager": "pnpm@9.10.0"
 }
