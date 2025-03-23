@@ -1,6 +1,6 @@
 {
 	"name": "sveltia-cms-auth-hono",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"author": "MikeNewXYZ",
 	"description": "Authentication library for Sveltia CMS using Hono.",
 	"keywords": [
