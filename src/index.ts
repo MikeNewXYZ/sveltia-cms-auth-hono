@@ -26,14 +26,18 @@ export type CreateAuthAppProps = {
 	};
 	options?: {
 		allowedDomains?: string;
+		baseURL: string | "/api";
 	};
 };
 
-export const createAuthApp = ({ provider, options }: CreateAuthAppProps): Hono => {
+export const createAuthApp = ({
+	provider,
+	options = { baseURL: "/api" },
+}: CreateAuthAppProps): Hono => {
 	const { github: githubCredentials } = provider;
-	const { allowedDomains } = options ?? {};
+	const { allowedDomains, baseURL } = options;
 
-	const app = new Hono();
+	const app = new Hono().basePath(baseURL);
 	const github = new GitHub(githubCredentials.clientId, githubCredentials.clientSecret, null);
 
 	app.get("/auth", authQueryValidator(allowedDomains), (c) => {

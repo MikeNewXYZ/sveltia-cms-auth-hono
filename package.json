@@ -1,24 +1,73 @@
 {
 	"name": "sveltia-cms-auth-hono",
-	"private": true,
+	"version": "0.0.6",
+	"author": "MikeNewXYZ",
+	"description": "Authentication library for Sveltia CMS using Hono.",
+	"keywords": [
+		"auth",
+		"hono",
+		"sveltia",
+		"cms"
+	],
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/mikenewxyz/sveltia-cms-auth-hono"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"files": [
+		"dist",
+		"README.md"
+	],
+	"type": "module",
+	"main": "./dist/cjs/index.cjs",
+	"module": "./dist/es/index.mjs",
+	"types": "./dist/types/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/types/index.d.ts",
+			"import": "./dist/es/index.mjs",
+			"require": "./dist/cjs/index.cjs"
+		}
+	},
 	"scripts": {
 		"format": "prettier --write .",
-		"dev:package": "pnpm --filter sveltia-cms-auth-hono dev",
-		"build:package": "pnpm --filter sveltia-cms-auth-hono build",
-		"publish:package": "concurrently \"pnpm build:package\" \"pnpm --filter sveltia-cms-auth-hono publish --no-git-checks\" --kill-others-on-fail --sequential",
-		"version:package:patch": "pnpm --filter sveltia-cms-auth-hono version patch",
-		"version:package:minor": "pnpm --filter sveltia-cms-auth-hono version minor",
-		"version:package:major": "pnpm --filter sveltia-cms-auth-hono version major",
-		"release:package:patch": "concurrently \"pnpm version:package:patch\" \"pnpm publish:package\" --kill-others-on-fail --sequential",
-		"release:package:minor": "concurrently \"pnpm version:package:minor\" \"pnpm publish:package\" --kill-others-on-fail --sequential",
-		"release:package:major": "concurrently \"pnpm version:package:major\" \"pnpm publish:package\" --kill-others-on-fail --sequential",
-		"dev:sandbox:astro-cloudflare": "concurrently \"pnpm dev:package\" \"pnpm --filter=astro-cloudflare dev\" --kill-others-on-fail --sequential",
-		"build:sandbox:astro-cloudflare": "concurrently \"pnpm build:package\" \"pnpm --filter=astro-cloudflare build\" --kill-others-on-fail --sequential"
+		"dev": "vite build --watch",
+		"build": "vite build",
+		"publish": "pnpm publish --no-git-checks",
+		"bump:patch": "pnpm version patch",
+		"bump:minor": "pnpm version minor",
+		"bump:major": "pnpm version major",
+		"release:patch": "concurrently \"pnpm bump:patch\" \"pnpm publish\" --kill-others-on-fail --sequential",
+		"release:minor": "concurrently \"pnpm bump:minor\" \"pnpm publish\" --kill-others-on-fail --sequential",
+		"release:major": "concurrently \"pnpm bump:major\" \"pnpm publish\" --kill-others-on-fail --sequential",
+		"dev:sandbox:astro-cloudflare": "concurrently \"pnpm dev\" \"pnpm --filter=astro-cloudflare dev\" --sequential",
+		"dev:sandbox:nextjs-edge": "concurrently \"pnpm dev\" \"pnpm --filter=nextjs-edge dev\" --sequential",
+		"dev:sandbox:nodejs-server": "concurrently \"pnpm dev\" \"pnpm --filter=nodejs-server dev\" --sequential"
+	},
+	"dependencies": {
+		"@hono/zod-validator": "^0.4.3",
+		"arctic": "^3.5.0",
+		"zod": "^3.24.2"
 	},
 	"devDependencies": {
 		"concurrently": "^9.1.2",
 		"prettier": "^3.5.2",
-		"prettier-plugin-astro": "^0.14.1"
+		"prettier-plugin-astro": "^0.14.1",
+		"typescript": "^5.8.2",
+		"vite": "^6.2.2",
+		"vite-plugin-dts": "^4.5.3",
+		"vite-tsconfig-paths": "^5.1.4"
+	},
+	"peerDependencies": {
+		"hono": "4.x"
+	},
+	"peerDependenciesMeta": {
+		"hono": {
+			"optional": true
+		}
 	},
 	"packageManager": "pnpm@9.10.0"
 }

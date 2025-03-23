@@ -1,0 +1,12 @@
+node_modules/
+sandbox/
+src/
+.gitignore
+.prettierignore
+.prettierrc
+package.json
+pnpm-lock.yaml
+pnpm-workspace.yaml
+README.md
+tsconfig.json
+vite.config.ts
